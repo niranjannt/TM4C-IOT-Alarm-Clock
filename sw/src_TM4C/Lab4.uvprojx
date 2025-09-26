@@ -10,7 +10,7 @@
       <TargetName>Lab 4</TargetName>
       <ToolsetNumber>0x4</ToolsetNumber>
       <ToolsetName>ARM-ADS</ToolsetName>
-      <pCCUsed>6220000::V6.22::ARMCLANG</pCCUsed>
+      <pCCUsed>6240000::V6.24::ARMCLANG</pCCUsed>
       <uAC6>1</uAC6>
       <TargetOption>
         <TargetCommonOption>
@@ -314,7 +314,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>1</Optim>
+            <Optim>7</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -399,6 +399,61 @@
               <FileType>1</FileType>
               <FilePath>.\UART.c</FilePath>
             </File>
+            <File>
+              <FileName>LED.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\lab-3-nnt-tt\sw\src\LED.c</FilePath>
+            </File>
+            <File>
+              <FileName>Sound.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\lab-3-nnt-tt\sw\src\Sound.c</FilePath>
+            </File>
+            <File>
+              <FileName>Switch.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\lab-3-nnt-tt\sw\src\Switch.c</FilePath>
+            </File>
+            <File>
+              <FileName>Systick.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\lab-3-nnt-tt\sw\src\Systick.c</FilePath>
+            </File>
+            <File>
+              <FileName>Timer1A.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\..\lab-3-nnt-tt\sw\src\Timer1A.c</FilePath>
+            </File>
+            <File>
+              <FileName>LCD.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\lab-3-nnt-tt\sw\src\LCD.h</FilePath>
+            </File>
+            <File>
+              <FileName>LED.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\lab-3-nnt-tt\sw\src\LED.h</FilePath>
+            </File>
+            <File>
+              <FileName>Sound.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\lab-3-nnt-tt\sw\src\Sound.h</FilePath>
+            </File>
+            <File>
+              <FileName>Switch.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\lab-3-nnt-tt\sw\src\Switch.h</FilePath>
+            </File>
+            <File>
+              <FileName>Timer1A.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\..\..\lab-3-nnt-tt\sw\src\Timer1A.h</FilePath>
+            </File>
+            <File>
+              <FileName>Lab4E_Main.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Lab4E_Main.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -425,11 +480,6 @@
               <FilePath>..\inc\Timer2A.c</FilePath>
             </File>
             <File>
-              <FileName>LED.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\inc\LED.c</FilePath>
-            </File>
-            <File>
               <FileName>ST7735.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\inc\ST7735.c</FilePath>
@@ -454,7 +504,20 @@
               <FileType>1</FileType>
               <FilePath>..\inc\Timer5A.c</FilePath>
             </File>
+            <File>
+              <FileName>FIFO3.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\FIFO3.h</FilePath>
+            </File>
+            <File>
+              <FileName>globals.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\globals.h</FilePath>
+            </File>
           </Files>
+        </Group>
+        <Group>
+          <GroupName>New Group</GroupName>
         </Group>
       </Groups>
     </Target>

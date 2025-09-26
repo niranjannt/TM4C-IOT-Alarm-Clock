@@ -43,7 +43,7 @@ function connect() {
 	// Set up the client
 	// TODO: We use a default here for emqx, but if you're using ECE445L broker,
 	// feel free to replace with the hostname + port specified earlier. 
-	const url = 'ws://broker.emqx.io:8083/mqtt';
+	const url = 'ws://10.159.177.244:9001/mqtt';
 
 	const options = {
 		// Clean session

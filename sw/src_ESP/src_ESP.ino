@@ -13,6 +13,8 @@
 // ----------------    DEFINES   ----------------------------------
 // 
 // 
+
+
 #define     DEBUG1                  // First level of Debug
 #define     DEBUG2                  // Second level of Debug
 //#define     DEBUG3                  // Third level of Debug
@@ -43,15 +45,23 @@
 // ----------------------------------------------------------------
 // ----------------  VARIABLES    ---------------------------------         
 //
-char  eid[20]           = "xxx";        // TODO: Update this with you EID
-char  ssid[64]          = "ssid";       // TODO: Update this with your WIFI SSID
-char  password[64]      = "password";   // TODO: Update this with your WIFI Password
+char  eid[20]           = "nnt479";        // TODO: Update this with you EID
+char  ssid[64]          = "LonghornNetwork";       // TODO: Update this with your WIFI SSID
+char  password[64]      = "Juicegoat999!";   // TODO: Update this with your WIFI Password
 
 // TODO: add more of these depending on your specifications
 char  clk_mode[5]       = "";
 char  hour[5]           = "";
 char  minute[5]         = "";
 char  second[5]         = "";
+char isPM[5]            = "";
+char  style[5]          = "";
+char alarmset[5]        = "";
+char alarmhours[5]      = "";
+char alarmminutes[5]    = "";
+char alarmseconds[5]    = "";
+char alarmisPM[5]       = "";
+char timesetdone[5]     = "";
 
 char  cmd[20];          
 #define SER_BUF_LEN 256                              
@@ -63,7 +73,7 @@ char  ser_buf[SER_BUF_LEN];
 //
 const char *mqtt_username       = "";     // Not needed for this appication 
 const char *mqtt_password       = "";
-char        mqtt_broker[20]     = "10.159.177.60";     // TODO: Replace if required
+char        mqtt_broker[20]     = "10.159.177.244";     // TODO: Replace if required
 char        port[5]             = "1883";               // TODO: Replace if required
 int         mqtt_port;
 
@@ -75,6 +85,14 @@ const char  *pub_mode           = "/b2w/mode";
 const char  *pub_hour           = "/b2w/hour";  
 const char  *pub_min            = "/b2w/min"; 
 const char  *pub_sec            = "/b2w/sec";
+const char  *pub_ispm            = "/b2w/ispm";
+const char  *pub_style          ="/b2w/style";
+const char  *pub_alarmset          ="/b2w/alarmset";
+const char  *pub_alarmhours          ="/b2w/alarmhours";
+const char  *pub_alarmminutes         ="/b2w/alarmminutes";
+const char  *pub_alarmseconds        ="/b2w/alarmseconds";
+const char  *pub_alarmispm            = "/b2w/alarmispm";
+const char  *pub_timesetdone          ="/b2w/timesetdone";
 const char  *pub_msg            = "/b2w/msg";           // Debug only 
 
 // ----------------------------------------------------------------
@@ -288,6 +306,16 @@ void setup() {
     snprintf(topic_publish, sizeof(topic_publish), "%s%s", eid, pub_hour); Serial.println(topic_publish);
     snprintf(topic_publish, sizeof(topic_publish), "%s%s", eid, pub_min);  Serial.println(topic_publish);
     snprintf(topic_publish, sizeof(topic_publish), "%s%s", eid, pub_sec);  Serial.println(topic_publish);
+      snprintf(topic_publish, sizeof(topic_publish), "%s%s", eid, pub_ispm);  Serial.println(topic_publish);
+      snprintf(topic_publish, sizeof(topic_publish), "%s%s", eid, pub_style); Serial.println(topic_publish);
+    snprintf(topic_publish, sizeof(topic_publish), "%s%s", eid, pub_alarmset); Serial.println(topic_publish);
+    snprintf(topic_publish, sizeof(topic_publish), "%s%s", eid, pub_alarmhours);  Serial.println(topic_publish);
+    snprintf(topic_publish, sizeof(topic_publish), "%s%s", eid, pub_alarmseconds);  Serial.println(topic_publish);
+    snprintf(topic_publish, sizeof(topic_publish), "%s%s", eid, pub_alarmminutes);  Serial.println(topic_publish);
+      snprintf(topic_publish, sizeof(topic_publish), "%s%s", eid, pub_alarmispm);  Serial.println(topic_publish);
+      snprintf(topic_publish, sizeof(topic_publish), "%s%s", eid, pub_timesetdone);  Serial.println(topic_publish);
+
+
     Serial.flush();
   #endif
  
@@ -354,6 +382,15 @@ void tm4c2mqtt(void) {
         pf |= get_next_token(hour,     NULL,    ",");
         pf |= get_next_token(minute,   NULL,    ",");
         pf |= get_next_token(second,   NULL,    ",");
+        pf |= get_next_token(isPM, NULL, ",");
+        pf |= get_next_token(style, NULL, ",");
+        pf |= get_next_token(alarmset, NULL, ",");
+        pf |= get_next_token(alarmhours, NULL, ",");
+        pf |= get_next_token(alarmminutes, NULL, ",");
+        pf |= get_next_token(alarmseconds, NULL, ",");
+        pf |= get_next_token(alarmisPM, NULL, ",");
+        pf |= get_next_token(timesetdone, NULL, ",");
+
 
         #ifdef DEBUG2
           if(pf)
@@ -371,6 +408,35 @@ void tm4c2mqtt(void) {
         
         snprintf(topic_publish, sizeof(topic_publish), "%s%s", eid, pub_sec);
         client.publish(topic_publish,   second,  1); 
+
+        snprintf(topic_publish, sizeof(topic_publish), "%s%s", eid, pub_ispm);
+        client.publish(topic_publish,   isPM,  1); 
+
+
+        snprintf(topic_publish, sizeof(topic_publish), "%s%s", eid, pub_style);
+        client.publish(topic_publish,   style,  1); 
+
+        snprintf(topic_publish, sizeof(topic_publish), "%s%s", eid, pub_alarmset);
+        client.publish(topic_publish,   alarmset,  1); 
+
+
+        snprintf(topic_publish, sizeof(topic_publish), "%s%s", eid, pub_alarmhours);
+        client.publish(topic_publish,   alarmhours,  1); 
+
+        snprintf(topic_publish, sizeof(topic_publish), "%s%s", eid, pub_alarmminutes);
+        client.publish(topic_publish,   alarmminutes,  1); 
+
+        snprintf(topic_publish, sizeof(topic_publish), "%s%s", eid, pub_alarmseconds);
+        client.publish(topic_publish,   alarmseconds,  1); 
+       
+
+        snprintf(topic_publish, sizeof(topic_publish), "%s%s", eid, pub_alarmispm);
+        client.publish(topic_publish,   alarmisPM,  1); 
+
+        snprintf(topic_publish, sizeof(topic_publish), "%s%s", eid, pub_timesetdone);
+        client.publish(topic_publish,   timesetdone,  1); 
+
+
       }
 
       for (int i = 0; i < SER_BUF_LEN; i++)  (ser_buf[i]) = 0;
