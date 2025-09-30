@@ -80,8 +80,7 @@ function onConnect() {
 	client.subscribe(sec_bd);
     client.subscribe(mode_bd);
 	client.subscribe(adc_bd);
-	client.subscribe(style_bd);
-	client.subscribe(ispm);
+	client.subscribe(style_bd)
 }
 
 function onMessageArrived(topic, message) {
@@ -105,13 +104,6 @@ function onMessageArrived(topic, message) {
 			console.log("Updating Seconds");
 			second = message;
 			break;
-		case ispm:
-			console.log("Updating AM/PM");
-			ampm = String(message);
-			break;
-		case mode_bd:
-			 console.log("Updating Mode")
-             mil_time=String(message);
 		//case style_bd:
 		//	console.log("Updating")	
 		default:
@@ -126,10 +118,10 @@ function onMessageArrived(topic, message) {
 var toggle = 0;
 
 function toggleMode() {
-	toggle = ((toggle + 1) % 3).toString();
-	console.log("Publishing ", toggle, " to ", w2b);
-	client.publish(w2b, toggle);
-
+	var payload = toggle;
+	toggle = (toggle + 1) % 2;
+	console.log("Publishing ", payload, " to ", w2b);
+	client.publish(w2b, payload);
 }
 
 // //////////////////////////////////////////////////////////////////////////
@@ -174,19 +166,18 @@ function inc_sec() {
 	client.publish(w2b, payload);
 }
 
-function color_change() {
+function style() {
 	var payload = "15";
 	console.log("Publishing ", payload, " to ", w2b);
 	client.publish(w2b, payload);
 }
 
-function toggle_pm(){
-   var payload = "14";
-   	console.log("Publishing ", payload, " to ", w2b);
+function set_PM() {
+	var payload ="14";
+	console.log("Publishing ", payload, " to ", w2b);
 	client.publish(w2b, payload);
-
-
 }
+
 
 // -----------------------------------------------------------------------
 // This function appends AM or PM to the time when not in 24 hour mode
@@ -194,19 +185,24 @@ function toggle_pm(){
 function Board_Time() {
 
     // Creating object of the Date class
-  //Debugged with ChatGPT
+  
     // Variable to store AM / PM
+    
     var period = "";
+  
     // Assigning AM / PM according to current hour
-    if ((ampm === "1") && ((mil_time==="0") || (mil_time === "1")))
-    {
-        period = "PM";
-    } 
-    else if ((ampm === "0") && ((mil_time==="0") || (mil_time === "1")))
+    if ((hour <= 11) && (mil_time == 0))
     {
         period = "AM";
+    } 
+    else if (hour >= 12 && (mil_time == 0))
+    {
+        period = "PM";
+        if (hour != 12) {
+        hour = hour - 12;
+        }
     }
-    else if (mil_time==="2")
+    else if (mil_time == 1)
     {
         period ="";
     }
@@ -218,20 +214,17 @@ function Board_Time() {
 	hour = update(hour);
   	minute = update(minute);
   	second = update(second);
-	//mil_time = update(mil_time)
-	//mode_bd = update(mode);
   
     // Set Timer to 1 sec (1000 ms)
     setTimeout(Board_Time, 1000);
 }
-//Debugged with Chatgpt mistake was that t was a string and we were comparing it like it was a number
+
 function update(t) {
-	t = Number(t);
 	if (t < 10) {
 		return "0" + t;
 	}
 	else {
-		return t.toString();
+		return t;
 	}
 }
 

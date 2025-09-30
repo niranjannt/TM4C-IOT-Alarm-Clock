@@ -21,6 +21,7 @@
 #include "inc/MQTT.h"
 #include "inc/Unified_Port_Init.h"
 #include "Lab4E_Main.h"
+
 // ---------- Prototypes   -------------------------
 void DisableInterrupts(void); // Disable interrupts
 void EnableInterrupts(void);  // Enable interrupts
@@ -32,7 +33,7 @@ char volatile isPM=0;
 char volatile timecounter;
 char volatile timecycle;
 char volatile digital;
-char volatile erase;
+char volatile erase=0;
 char volatile freeze;
 //char volatile set;
 char volatile timecycleset;
@@ -61,6 +62,8 @@ void drawAnalogHands(void);
 #include "Switch.h"
 #include "LED.h"
 #include "LCD.h"
+#include "inc/SysTick.h"
+#include "Timer1A.h"
 
 
 //uint32_t         Mode_Value;      //
@@ -104,30 +107,28 @@ int main(void){
   UART_Init();                    // Allow us to talk to the PC via PuTTy!
   UART5_Init();                   // Enable ESP8266 Serial Port
   ST7735_InitR(INITR_REDTAB);     // Start up display.
-  Unified_Port_Init();						// Initialize the Ports used for this lab
+  //Unified_Port_Init();						// Initialize the Ports used for this lab
 	
 	ST7735_OutString("Reseting ESP\n");
   Reset_8266();                   // Reset the WiFi module
   SetupWiFi();                    // Setup communications to MQTT Broker via 8266 WiFi
+	Switch_Init();
+	DAC5_Init();
+  LED_Init();
+
 	
   Timer2A_Init(&MQTT_to_TM4C, 400000, 7);         // Check/Get data from the ESP every 5ms 
   Timer5A_Init(&TM4C_to_MQTT, 80000000, 7);       // Send data back to MQTT Web App every second 
   
- // EnableInterrupts();
-	  ST7735_InitR(INITR_REDTAB);
-    Switch_Init();
-	  DAC5_Init();
-    LED_Init();
-
-	ST7735_SetCursor(0,10);
-	ST7735_OutString("Press SW to toggle mode:");
+  //EnableInterrupts();
+	
+//	ST7735_SetCursor(0,10);
+//	ST7735_OutString("Press SW to toggle mode:");
 
   //Integrate your lab 3 here
-	
-	
-	
-	    uint32_t cycle_release=0, cycle_press=0;
+		    uint32_t cycle_release=0, cycle_press=0;
     uint32_t increment_cycle=0, increment_cycle_release=0;
+	uint32_t timesetdone=0;
 	uint32_t changeclock=0, changeclock_release, timeset, timesetlast, alarmset, alarmsetrelease, alarmdisable, alarmdisablerelease, setalarmrun, setalarmrundone =0;
 	uint32_t changeclock_runrelease, changeclockrun=0;
 	uint32_t stopfreeze, stopfreezerelease=0;
@@ -150,8 +151,7 @@ uint32_t setalarmrundisable=128;
 //				
 //			}
 //		}
-			FillTransmitBuffer();
-			ReceiveTransmitBuffer();
+			
 			colorchange=Switch_In6();
 			if((colorchange==1) && (colorchangerelease==0)){
 				
@@ -461,17 +461,13 @@ else if((alarmset == 0) && (alarmsetrelease == 128) && (alarmsetdone==0)){
 
     }
 
-  while(1){ 
-//		ST7735_SetCursor(0,11);
-//		ST7735_OutString("Mode is now:    ");
-//		ST7735_SetCursor(13,11);
-//		ST7735_OutUDec( Mode_Value );
-//		Mode_Value ^= 0x01;
-//		pause();
-			FillTransmitBuffer();
-			ReceiveTransmitBuffer();
+    EnableInterrupts();
+    SysTick_Init();
+    Timer1A_Init(7272);
 
-		        displayScreen();
+
+   while(1){
+        displayScreen();
 		 setalarmrundone=0;
 		 //Disable alarm/set alarm
 		 //Change color of text
@@ -694,6 +690,7 @@ else if((alarmset == 0) && (alarmsetrelease == 128) && (alarmsetdone==0)){
 	 }
 
   }
+
 
 
 void ADC_Init(void){

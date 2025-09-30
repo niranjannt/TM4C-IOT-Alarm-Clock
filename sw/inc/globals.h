@@ -13,3 +13,4 @@ extern char volatile seconds;
 extern char volatile isPM;
 extern char volatile colorindex;
 extern char volatile timesetdone;
+extern char volatile erase;

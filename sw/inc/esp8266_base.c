@@ -173,11 +173,15 @@ void SetupWiFi(void)
  
   PE3 = BIT3;
   //DelayWait1ms(7000);
-  
+   ST7735_FillScreen(ST7735_BLACK);
+
   #ifdef DEBUG1
   UART_OutString("Exiting WiFI_Setup routine\r\n");
   
   #endif
 }
+
+
+
 
 
