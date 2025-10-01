@@ -15,3 +15,4 @@ extern char volatile colorindex;
 extern char volatile timesetdone;
 extern char volatile alarmsetdone;
 extern char volatile erase;
+extern char volatile twentyfourhours;

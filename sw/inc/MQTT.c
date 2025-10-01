@@ -38,7 +38,7 @@
 // ----   Function Prototypes not defined in header files  ------
 // 
 void EnableInterrupts(void);    // Defined in startup.s
-
+void RealTimeTask(void);
 //extern uint32_t         Kp1; //Extern for any variables we need to set/get for MQTT code
 //extern uint32_t         Kp2;
 //extern uint32_t         Ki1;
@@ -58,9 +58,20 @@ static uint32_t         bufpos         = 0;
 char b2w_message[25];
 
 
+// debugging dump variables
+#define BUFSIZE 1000
+uint32_t TimeBuf[BUFSIZE]; // in bus cycles
+uint32_t DataBuf[BUFSIZE]; // 0 to 4095 assuming constant analog input
+volatile uint32_t Num;     // index from 0 to BUFSIZE-1
 
 
-
+void RealTimeTask(void){
+  if(Num < BUFSIZE){
+    DataBuf[Num] = seconds;
+    TimeBuf[Num] = TIMER2_TAR_R;
+    Num++;
+  }
+}
 
 // --------------------------     W2B Parser      ------------------------------
 //
@@ -120,7 +131,7 @@ void Parser(void) {
 void TM4C_to_MQTT(void){
 	sprintf(b2w_buf, "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d\n", digital, hours, minutes, seconds, isPM, colorindex, alarmsetdone, alarmhours, alarmseconds, alarmminutes, alarmisPM, timesetdone);
   UART5_OutString(b2w_buf);      
-
+  RealTimeTask();
   #ifdef DEBUG1
    UART_OutString("B2W: ");
    UART_OutString(b2w_buf);         
@@ -160,5 +171,6 @@ void MQTT_to_TM4C(void) {
         bufpos = 0;                      // Reset for next string	
       }   
   } 
-  
+    RealTimeTask();
+
 }   // End of routine
