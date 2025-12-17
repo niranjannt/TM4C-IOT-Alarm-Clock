@@ -17,7 +17,7 @@ TM4C ↔ UART ↔ ESP8266 ↔ MQTT Broker ↔ Web Application
 - Remote control via MQTT (hour/minute/second increment and decrement)
 - Bi-directional MQTT communication using structured topics
 - ST7735 color LCD output
-- UART-based ESP8266 interface
+- Bidirectional UART between TM4C and ESP8266 Wi-Fi module
 
 ## MQTT Topics
 All MQTT topics are prefixed with the student EID.
@@ -47,7 +47,7 @@ All MQTT topics are prefixed with the student EID.
 - ESP8266 requires a dedicated 3.3V regulator
 - All grounds must be connected
 - UART5 is used for TM4C–ESP bidirectional communication
-- MQTT broker can be local or cloud-based (EMQX supported)
+- MQTT broker in this case is Dr. McDermott's own local broker
 
 ## Deliverables
 - KiCad schematic of external hardware
