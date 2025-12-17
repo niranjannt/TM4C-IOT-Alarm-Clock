@@ -18,7 +18,6 @@ TM4C ↔ UART ↔ ESP8266 ↔ MQTT Broker ↔ Web Application
 - Bi-directional MQTT communication using structured topics
 - ST7735 color LCD output
 - UART-based ESP8266 interface
-- Optional ADC sensor support for extra credit
 
 ## MQTT Topics
 All MQTT topics are prefixed with the student EID.
@@ -47,7 +46,7 @@ All MQTT topics are prefixed with the student EID.
 ## Setup Notes
 - ESP8266 requires a dedicated 3.3V regulator
 - All grounds must be connected
-- UART5 is used for TM4C–ESP communication at 9600 baud
+- UART5 is used for TM4C–ESP bidirectional communication
 - MQTT broker can be local or cloud-based (EMQX supported)
 
 ## Deliverables
