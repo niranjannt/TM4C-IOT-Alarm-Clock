@@ -18,6 +18,10 @@ TM4C ↔ UART ↔ ESP8266 ↔ MQTT Broker ↔ Web Application
 - Bi-directional MQTT communication using structured topics
 - ST7735 color LCD output
 - Bidirectional UART between TM4C and ESP8266 Wi-Fi module
+- Mode button on web interface to change between 12/24 hour time on the ST7735 LCD
+- Color button on web interface to toggle between different colors for the clock on the ST7735 LCD
+- Toggle AM/PM button on web interface to toggle between AM and PM for the clock on the ST7735 LCD
+
 
 ## MQTT Topics
 All MQTT topics are prefixed with the student EID.
