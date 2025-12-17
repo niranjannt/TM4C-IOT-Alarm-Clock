@@ -1,47 +1,64 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/hWGawD0M)
-# ECE445L-Lab4
+# IoT Smart Alarm Clock (Lab 4)
 
-Lab 4 Template.
+## Overview
+This project implements a smart IoT-enabled alarm clock using a TM4C123 LaunchPad and an ESP8266 Wi-Fi module. The system connects to a web-based MQTT application, allowing real-time monitoring and remote control of the clock through a publish–subscribe interface.
 
-## HW
+## System Architecture
+The system consists of three primary components:
+- **TM4C123 LaunchPad** running the clock logic, display driver, and UART interface
+- **ESP8266 (ESP-01)** acting as a Wi-Fi bridge between the TM4C and the MQTT broker
+- **Web Application** that publishes commands and subscribes to clock state updates
 
-The hw folder should contain your schematic and board files for your PCB or
-circuits. In labs 3-10, you will be creating schematics for your circuit
-in KiCad.
+Data flows as follows:
+TM4C ↔ UART ↔ ESP8266 ↔ MQTT Broker ↔ Web Application
 
-## SW
+## Features
+- Real-time display of hour, minute, second, and 12/24-hour mode
+- Remote control via MQTT (hour/minute/second increment and decrement)
+- Bi-directional MQTT communication using structured topics
+- ST7735 color LCD output
+- UART-based ESP8266 interface
+- Optional ADC sensor support for extra credit
 
-The sw folder should contain your application firmware and software written for
-the lab. The sw/inc folder contains firmware drivers written for you by
-Professor Valvano. Feel free to write your own (in fact, in some labs, you may
-be required to write your own).
+## MQTT Topics
+All MQTT topics are prefixed with the student EID.
 
-You can place any other source files in the sw/ folder. TAs will look at the
-files you create and/or modify for software quality and for running your
-project.
+### Publish (Board → Web)
+- `<EID>/b2w/mode`
+- `<EID>/b2w/hour`
+- `<EID>/b2w/min`
+- `<EID>/b2w/sec`
 
-## Resources
+### Subscribe (Web → Board)
+- `<EID>/w2b`
 
-A couple files are provided in the Resources folder so you don't have to keep
-searching for that one TI document. Some of them are immediately useful, like
-the TM4C datasheet. Others may be useful for your final project, like the
-TM4C_System_Design_Guidelines page.
+## Hardware Used
+- TM4C123GXL LaunchPad
+- ESP8266-ESP01 Wi-Fi module
+- LM2937 3.3V voltage regulator
+- ST7735R TFT LCD
+- External switches and passive components
 
-## Git and Github
+## Software Components
+- TM4C firmware written in C
+- ESP8266 firmware written using Arduino framework
+- Web interface using HTML, JavaScript, and MQTT over WebSockets
 
-We will extensively use Git and Github for managing lab projects. This makes it
-easier for TAs to grade and help debug the project by allowing the students to
-see commit histories, maintain a common project structure, collaborate with
-partners, merge different codebases, and to debug work.
+## Setup Notes
+- ESP8266 requires a dedicated 3.3V regulator
+- All grounds must be connected
+- UART5 is used for TM4C–ESP communication at 9600 baud
+- MQTT broker can be local or cloud-based (EMQX supported)
 
-Two common ways of using Git and Github are [Github Desktop](https://desktop.github.com/) and the [command line](https://git-scm.com/downloads). [Tutorials](https://dev.to/mollynem/git-github--workflow-fundamentals-5496) are also abundant on the net for you to peruse. We've provided a cheatsheet for git in the Resources folder.
+## Deliverables
+- KiCad schematic of external hardware
+- System call graph
+- Debug dumps and jitter measurements
+- Photos demonstrating synchronized operation
+- Power and current characterization
 
-It is highly recommended to make the most out of Git, even if you've never used
-it before. Version control will save you a lot of suffering, and tools like Git
-or SVN are ubiquitous in the industry.
+## Team
+Team size: 2
 
-## Lab Report
-
-Following the lab doc provided at the root of this project, the TAs request you
-submit a lab report in Microsoft Word (or Pages, if you're a Mac user). Please
-name it `EID_lab_LAB_NUMBER_report.pdf`.
+## Course
+Embedded Systems Laboratory (ECE 445L)
